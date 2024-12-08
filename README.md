@@ -13,6 +13,11 @@ any need. Its design goals are:
 - backup and reproduce: you can define the state of the machine and reproduce it to
   any system, do version control and backup the most important files.
 
+## Current state
+
+This language is currently in early developement. As soon as it reaches a stable state,
+It will be used in the [mapkg](https://github.com/San7o/mapkg.git) packet manager.
+
 ## Example syntax
 
 ```
