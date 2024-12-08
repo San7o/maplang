@@ -1,21 +1,28 @@
 %{
+
+/* c declarations */
 #include <stdio.h>
 #include <stdlib.h>
+#include <parser.tab.h>
+
+int yyerror(char* err);
+int yylex(void);
 
 %}
 
+/* bison declarations */
 %union {
   int num;
-  char[256] name;
-  char[256] version;
-  char[256] description;
-  char[256] dependency;
-  char[256] output;
-  char[256] config;
-  char[256] download;
-  char[256] install;
-  char[256] clean;
-  char[256] remove;
+  char* name;
+  char* version;
+  char* description;
+  char* dependency;
+  char* output;
+  char* config;
+  char* download;
+  char* install;
+  char* clean;
+  char* remove;
 }
 
 %token NUM
@@ -34,9 +41,7 @@
 
 %%
 
-empty:
-    ;
-
+/* grammar rules */
 package :
     name
     version
@@ -56,51 +61,53 @@ name:
 
 version:
     "version " VERSION ',' |
-    empty
     ;
 description:
     "description " DESCRIPTION ',' |
-    empty
     ;
 dependencies:
     "dependencies [" dependencies_list ']' |
-    empty
     ;
 dependencies_list:
     DEPENDENCY dependencies_list |
-    empty
     ;
 output:
     "output " OUTPUT ',' |
-    empty
     ;
 configs:
     "configs [" configs_list ']' |
-    empty
     ;
-ocnfigs_list:
-    CONFIGS configs_list |
-    empty
+configs_list:
+    CONFIG configs_list |
     ;
 download:
     "download {" DOWNLOAD "}" |
-    empty
     ;
 install:
-    "download {" INSTALL "}" |
-    empty
+    "install {" INSTALL "}" |
     ;
 clean:
-    "download {" CLEAN "}" |
-    empty
+    "clean {" CLEAN "}" |
     ;
 remove:
-    "download {" REMOVE "}" |
-    empty
+    "remove {" REMOVE "}" |
     ;
 
 %%
 
+int yyerror(char *err)
+{
+  fprintf(stderr, "Error: %s", err);
+  exit(1);
+}
+
+/* lexer */
+int yylex(void)
+{
+  return NUM;
+}
+
+/* additional c code */
 int main(void)
 {
   yyparse();

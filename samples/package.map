@@ -1,0 +1,26 @@
+# define a package
+package
+{
+	name "neofetch",
+	version "1.2.3",
+	description "Check your system stats",
+    dependencies [ "tar" "cmake" ],
+	output "/usr",
+	configs [ "/etc/neofetch" ],
+	download
+	{
+	    wget ...
+	},
+	install
+	{
+	   ...
+	},
+	clean
+	{
+	   ...
+	},
+	remove
+	{
+	   rm ...
+	},
+}
