@@ -1,12 +1,15 @@
 %{
 
 /* c declarations */
+#define YY_NO_UNPUT
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <parser.tab.h>
-
+  
 int yyerror(char* err);
 int yylex(void);
+int yyparse();
 
 %}
 
@@ -97,14 +100,11 @@ remove:
 
 int yyerror(char *err)
 {
-  fprintf(stderr, "Error: %s", err);
+  extern int yylineno;
+  extern char *yytext;
+  fprintf(stderr, "ERROR: %s at symbol \"%s\" on line %d\n",
+	  err, yytext, yylineno);
   exit(1);
-}
-
-/* lexer */
-int yylex(void)
-{
-  return NUM;
 }
 
 /* additional c code */
